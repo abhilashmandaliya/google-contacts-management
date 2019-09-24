@@ -10,16 +10,11 @@ import com.google.api.services.people.v1.PeopleService;
 import com.google.api.services.people.v1.PeopleService.Builder;
 import com.google.api.services.people.v1.PeopleService.People;
 import com.google.api.services.people.v1.model.Person;
-import com.google.api.services.people.v1.model.PhoneNumber;
 import com.google.inject.Inject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import app.config.AppConfig;
 import app.context.CurrentThreadContext;
@@ -68,20 +63,5 @@ public class ContactManagementServiceImpl implements ContactManagementService {
     }
     return createdContacts;
   }
-
-  private List<PhoneNumber> getPhoneNumbers(String s, Set<String> invalidEntries) {
-    return Arrays.stream(s.split(",")).map(str -> {
-      try {
-        Long.parseLong(str);
-      }
-      catch (Exception e) {
-        invalidEntries.add(str);
-      }
-      final PhoneNumber phoneNumber = new PhoneNumber();
-      phoneNumber.setValue(str.trim());
-      return phoneNumber;
-    }).collect(Collectors.toList());
-  }
-
 
 }
